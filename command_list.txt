@@ -1,0 +1,62 @@
+from news.models import *
+user1 = User.objects.create_user("user1")
+user2 = User.objects.create_user("user2")
+
+Author.objects.create(user=user1)
+Author.objects.create(user=user2)
+
+cat1 = Category.objects.create(category="Авто")
+cat2 = Category.objects.create(category="Спорт")
+cat3 = Category.objects.create(category="Python")
+cat4 = Category.objects.create(category="Django")
+
+post1 = Post.objects.create(user=Author.objects.get(user=user1), view="ar", title="Test Django", post="test test test test test test test test test test test test test test test test test test test test test test test testtest test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
+post2 = Post.objects.create(user=Author.objects.get(user=user1), view="nw", title="Test Python", post="test test test test test test test test test test test test test test test test test test test test test test test testtest test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
+post3 = Post.objects.create(user=Author.objects.get(user=user2), view="ar", title="Test PyDj", post="test test test test test test test test test test test test test test test test test test test test test test test testtest test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
+
+post1.category.add(cat3)
+post1.category.add(cat1)
+post2.category.add(cat4)
+post2.category.add(cat2)
+post3.category.add(cat2)
+post3.category.add(cat3)
+
+Comment.objects.create(post=post1, user=user2, comment="Test")
+Comment.objects.create(post=post2, user=user1, comment="Test")
+Comment.objects.create(post=post3, user=user1, comment="Test")
+Comment.objects.create(post=post1, user=user1, comment="Test")
+
+post1.like()
+post1.like()
+post1.like()
+post2.like()
+post2.like()
+post2.dislike()
+post3.like()
+post3.dislike()
+post3.dislike()
+post3.dislike()
+
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=4).like()
+Comment.objects.get(id=4).like()
+Comment.objects.get(id=4).dislike()
+
+Author.objects.get(user=User.objects.get(username='user1')).update_rating()
+Author.objects.get(user=User.objects.get(username='user2')).update_rating()
+
+bestAuthor = Author.objects.all().order_by("-rating").values("user", "rating")[0]
+print(f'username: {User.objects.get(id=bestAuthor["user"]).username}\n rating: {bestAuthor["rating"]}')
+
+bestPost = Post.objects.all().order_by("-rating").values("id", "create_date", "user", "rating", "title")[0]
+print(f'create_date: {bestPost["create_date"]}\nusername: {User.objects.get(id=bestPost["user"]).username}\nrating: {bestPost["rating"]}\ntitle:{bestPost["title"]}\npreview: {Post.objects.get(title=bestPost["title"]).preview()}')
+
+Comment.objects.filter(post=bestPost["id"]).values("create_date", "user", "rating", "comment")

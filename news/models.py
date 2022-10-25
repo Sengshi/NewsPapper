@@ -1,21 +1,21 @@
 from django.contrib.auth.models import User
 from django.db import models
-
-
-news = 'news'
-article = 'article'
-POSITIONS = [
-    (news, 'Новость'),
-    (article, 'Статья'),
-]
+from django.db.models import Sum
 
 
 class Author(models.Model):
-    rating = models.IntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
 
     def update_rating(self):
-        pass
+        sum_post_rating = 0
+        post_rating = self.post_set.all().aggregate(postRating=Sum("rating"))
+        sum_post_rating += post_rating.get("postRating")
+        sum_comment_rating = 0
+        comment_rating = self.user.comment_set.all().aggregate(commentRating=Sum("rating"))
+        sum_comment_rating += comment_rating.get("commentRating")
+        self.rating = sum_post_rating * 3 + sum_comment_rating
+        self.save()
 
 
 class Category(models.Model):
@@ -23,24 +23,33 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    view = models.CharField(max_length=10, choices=POSITIONS)
+    user = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    news = 'nw'
+    article = 'ar'
+    POSITIONS = [
+        (news, 'Новость'),
+        (article, 'Статья'),
+    ]
+
+    view = models.CharField(max_length=2, choices=POSITIONS, default=article)
     title = models.CharField(max_length=255)
-    _rating = models.IntegerField(default=0, db_column='rating')
+    rating = models.IntegerField(default=0)
     post = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, through='PostCategory')
 
     def like(self):
-        self._rating += 1
+        self.rating += 1
         self.save()
 
     def dislike(self):
-        self._rating -= 1
+        self.rating -= 1
         self.save()
 
     def preview(self):
-        pass
+        return f'{self.post[0:123]}...'
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -49,15 +58,18 @@ class PostCategory(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(Author, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
-    _rating = models.IntegerField(default=0, db_column='rating')
+    rating = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
 
     def like(self):
-        self._rating += 1
+        self.rating += 1
         self.save()
 
     def dislike(self):
-        self._rating -= 1
+        self.rating -= 1
         self.save()
