@@ -1,0 +1,11 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ news_detail.title }}
+{% endblock title %}
+
+{% block content %}
+<h2>{{ news_detail.title }}</h2>
+<hr>
+{{ news_detail.post }}
+{% endblock content %}
