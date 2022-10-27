@@ -12,17 +12,17 @@
 <hr>
     {% if posts %}
         <table>
-            <tr>
-                <td>
+            <thead>
+                <th>
                     Заголовок
-                </td>
-                <td>
+                </th>
+                <th>
                     Дата публикации
-                </td>
-                <td>
+                </th>
+                <th>
                     Статья
-                </td>
-            </tr>
+                </th>
+            </thead>
         {% for post in posts %}
             <tr>
                 <td>
