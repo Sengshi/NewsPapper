@@ -6,6 +6,7 @@
 
 {% block content %}
 <h2>{{ news_detail.title }}</h2>
+<h6>{{ news_detail.create_date|date:'d.M.Y' }}</h6>
 <hr>
 {{ news_detail.post }}
 {% endblock content %}
