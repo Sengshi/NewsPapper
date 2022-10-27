@@ -1,12 +1,14 @@
 {% extends 'default.html' %}
 
+{% load custom_filters %}
+
 {% block title %}
 {{ news_detail.title }}
 {% endblock title %}
 
 {% block content %}
-<h2>{{ news_detail.title }}</h2>
-<h6>{{ news_detail.create_date|date:'d.M.Y' }}</h6>
+<h2>{{ news_detail.title|censor }}</h2>
+<h6>Дата загрузки: {{ news_detail.create_date|date:'d-M-Y h:m' }}</h6>
 <hr>
-{{ news_detail.post }}
+{{ news_detail.post|censor }}
 {% endblock content %}

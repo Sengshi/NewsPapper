@@ -1,5 +1,7 @@
 {% extends 'default.html' %}
 
+{% load custom_filters %}
+
 {% block title %}
 Новости
 {% endblock title %}
@@ -24,13 +26,13 @@
         {% for post in posts %}
             <tr>
                 <td>
-                    {{ post.title }}
+                    {{ post.title|censor }}
                 </td>
                 <td>
                     {{ post.create_date|date:'d.M.Y' }}
                 </td>
                 <td>
-                    {{ post.post|truncatewords:20 }}
+                    {{ post.post|truncatechars:50|censor }}
                 </td>
             </tr>
         {% endfor %}
