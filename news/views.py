@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .models import Post
 from .filters import PostFilter
+from .forms import PostForm
 
 
 class PostList(ListView):
@@ -28,5 +29,24 @@ class PostSearch(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
-
         return context
+
+
+class PostAdd(CreateView):
+    template_name = 'post_add.html'
+    form_class = PostForm
+
+
+class PostDelete(DeleteView):
+    template_name = 'post_delete.html'
+    queryset = Post.objects.all()
+    success_url = '/news/'
+
+
+class PostEdit(UpdateView):
+    template_name = 'post_add.html'
+    form_class = PostForm
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Post.objects.get(pk=id)

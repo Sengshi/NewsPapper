@@ -8,7 +8,7 @@
 
 {% block content %}
 <h2>{{ news_detail.title|censor }}</h2>
-<h6>Дата загрузки: {{ news_detail.create_date|date:'d-M-Y h:m' }}</h6>
+<h6>Дата создания: {{ news_detail.create_date|date:'d-M-Y h:m' }}</h6>
 <hr>
 {{ news_detail.post|censor }}
 {% endblock content %}

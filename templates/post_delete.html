@@ -1,0 +1,28 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+{{ news_detail.title }}
+{% endblock title %}
+
+{% block content %}
+<h3>Вы действительно хотите удалить данную новость?</h3>
+<hr>
+    <table>
+        <thead>
+            <th>Заголовок</th>
+            <th>Дата публикации</th>
+            <th>Статья</th>
+        </thead>
+        <tr>
+            <td>{{ post.title|censor }}</td>
+            <td>{{ post.create_date|date:'d.M.Y' }}</td>
+            <td>{{ post.post|truncatechars:50|censor }}</td>
+        </tr>
+    </table>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить">
+</form>
+{% endblock content %}
