@@ -8,9 +8,10 @@
 
 {% block content %}
 <h3>Добавить новость</h3>
-<form method="POST">
+<hr>
+<form method="POST" class="form-example">
     {% csrf_token %}
-    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    {{ form }}
     <input type="submit" value="Добавить новость">
 </form>
 {% endblock content %}
