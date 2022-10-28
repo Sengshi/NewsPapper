@@ -7,6 +7,9 @@ class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.user.username
+
     def update_rating(self):
         sum_post_rating = 0
         post_rating = self.post_set.all().aggregate(postRating=Sum("rating"))
@@ -20,6 +23,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     category = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.category
 
 
 class Post(models.Model):
@@ -46,6 +52,9 @@ class Post(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        return self.title
 
     def preview(self):
         return f'{self.post[0:123]}...'

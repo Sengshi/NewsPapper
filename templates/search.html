@@ -1,0 +1,48 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Новости
+{% endblock title %}
+
+{% block content %}
+<h2>Поиск новостей</h2>
+<h6>Количество новостей: {{ filter.qs | length }}</h6>
+<hr>
+    <form method="GET">
+        {{ filter.form }}
+        <input type="submit" value="Найти">
+    </form>
+    {% if filter.qs %}
+
+        <table>
+            <thead>
+                <th>
+                    Заголовок
+                </th>
+                <th>
+                    Дата публикации
+                </th>
+                <th>
+                    Статья
+                </th>
+            </thead>
+        {% for post in filter.qs %}
+            <tr>
+                <td>
+                    {{ post.title|censor }}
+                </td>
+                <td>
+                    {{ post.create_date|date:'d.M.Y' }}
+                </td>
+                <td>
+                    {{ post.post|truncatechars:50|censor }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+{% endblock content %}
