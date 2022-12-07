@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class PostList(ListView):
@@ -33,18 +33,21 @@ class PostSearch(ListView):
         return context
 
 
-class PostAdd(CreateView):
+class PostAdd(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
     template_name = 'post_add.html'
     form_class = PostForm
 
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post',)
     template_name = 'post_delete.html'
     queryset = Post.objects.all()
     success_url = '/news/'
 
 
-class PostEdit(LoginRequiredMixin, UpdateView):
+class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     template_name = 'post_add.html'
     form_class = PostForm
 
