@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Cтраница авторизованного пользователя
+{% endblock title %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+
+<button> <a href="/accounts/logout/">Выйти</a> </button>
+{% if is_not_author %}
+<button> <a href="/sign/upgrade/"> Стать автором! </a> </button>
+{% endif %}
+{% endblock content %}
