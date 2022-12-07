@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class PostList(ListView):
@@ -43,7 +44,7 @@ class PostDelete(DeleteView):
     success_url = '/news/'
 
 
-class PostEdit(UpdateView):
+class PostEdit(LoginRequiredMixin, UpdateView):
     template_name = 'post_add.html'
     form_class = PostForm
 
