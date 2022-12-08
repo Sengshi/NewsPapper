@@ -15,7 +15,6 @@
         <input type="submit" value="Найти">
     </form>
     {% if filter.qs %}
-
         <table>
             <thead>
                 <th>Действия</th>
@@ -28,6 +27,10 @@
                 <th>
                     Статья
                 </th>
+                <th>
+                    Категории
+                </th>
+
             </thead>
         {% for post in filter.qs %}
             <tr>
@@ -44,6 +47,11 @@
                 </td>
                 <td>
                     {{ post.post|truncatechars:50|censor }}
+                </td>
+                <td>
+                    {% for cat in post.category.all %}
+                        {{ cat.category }}
+                    {% endfor %}
                 </td>
             </tr>
         {% endfor %}

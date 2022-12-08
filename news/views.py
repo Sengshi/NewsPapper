@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from itertools import count
+
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from .models import Post
+from .models import Post, Author, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -37,6 +40,24 @@ class PostAdd(PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_post',)
     template_name = 'post_add.html'
     form_class = PostForm
+
+    def post(self, request, *args, **kwargs):
+        post = Post(
+            user=Author.objects.get(user=request.POST['user']),
+            view=request.POST['view'],
+            title=request.POST['title'],
+            post=request.POST['post'],
+        )
+        post.save()
+        post.category.set(request.POST['category'])
+
+        send_mail(
+            subject=f'{post.title}',
+            message=post.post,
+            from_email='testpysend@mail.ru',
+            recipient_list=['asket2013@yandex.ru', ]
+        )
+        return redirect('/news/')
 
 
 class PostDelete(PermissionRequiredMixin, DeleteView):

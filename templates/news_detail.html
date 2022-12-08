@@ -11,4 +11,12 @@
 <h6>Дата создания: {{ news_detail.create_date|date:'d-M-Y h:m' }}</h6>
 <hr>
 {{ news_detail.post|censor }}
+<hr>
+<h5>Категории:</h5>
+{% for cat in news_detail.category.all %}
+    {{ cat.category }}
+
+    <br>
+{% endfor %}
+
 {% endblock content %}

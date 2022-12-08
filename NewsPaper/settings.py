@@ -159,3 +159,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {'signup': 'accounts.forms.BasicSignupForm'}
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'testpysend'
+EMAIL_HOST_PASSWORD = 'hRt3mcVrt4ccVe50tSjB'
+EMAIL_USE_SSL = True
