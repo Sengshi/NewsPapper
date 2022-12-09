@@ -6,7 +6,8 @@
     <title>Email</title>
 </head>
 <body>
-    <h2>{{ post.client_name }} Спасибо за запись!</h2>
-    <p> Вы записаны на {{ appointment.date|date:"d-M-Y" }} по вопросу: {{ appointment.message|truncatechars:50 }} </p>
+    <h2>Здравствуй, {{ subscriber.username }}. Новая статья в твоём любимом разделе!</h2>
+    <h3> {{ post.title }} </h3>
+    <p> {{ post.post|truncatechars:50 }} </p>
 </body>
 </html>

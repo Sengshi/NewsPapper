@@ -1,9 +1,10 @@
-from itertools import count
-
-from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from .models import Post, Author, Category
+from .models import Post, Author, Category, UserCategory
 from .filters import PostFilter
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -50,13 +51,26 @@ class PostAdd(PermissionRequiredMixin, CreateView):
         )
         post.save()
         post.category.set(request.POST['category'])
+        for _ in UserCategory.objects.filter(category=request.POST['category']).values("user"):
+            subscriber = User.objects.get(id=_["user"])
+            recipient = [subscriber.email]
 
-        send_mail(
-            subject=f'{post.title}',
-            message=post.post,
-            from_email='testpysend@mail.ru',
-            recipient_list=['asket2013@yandex.ru', ]
-        )
+            html_content = render_to_string(
+                'news_created.html',
+                {
+                    'post': post,
+                    'subscriber': subscriber,
+                }
+            )
+            msg = EmailMultiAlternatives(
+                subject=f'{post.title}',
+                body=post.post,
+                from_email='testpysend@mail.ru',
+                to=recipient,
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+
         return redirect('/news/')
 
 
@@ -75,3 +89,11 @@ class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
+
+
+@login_required
+def subscribe(request):
+    user = request.user
+    category = Category.objects.get(category=request.POST.get('subscribe'))
+    category.subscribers.add(user)
+    return redirect('/news/')

@@ -15,6 +15,15 @@
         <input type="submit" value="Найти">
     </form>
     {% if filter.qs %}
+        {% if filter.form.category.value and user.is_authenticated%}
+            <form action="subscribe" method="post">
+                {% csrf_token %}
+                <label for="subscribe">Выбрана категория: </label>
+                <input id="subscribe" type="hidden" name="subscribe" value="{{ filter.form.category.value }}">{{ filter.form.category.value }}</input>
+                <input type="submit" value="Подписаться">
+            </form>
+
+        {% endif %}
         <table>
             <thead>
                 <th>Действия</th>
