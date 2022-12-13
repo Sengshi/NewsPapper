@@ -51,8 +51,8 @@ class PostAdd(PermissionRequiredMixin, CreateView):
         today = today.replace(hour=0, minute=0, second=0, microsecond=0)
         count = Post.objects.filter(create_date__gte=today).filter(user=post.user).count()
         if count >= 3:
-            # return redirect('/news/error/')
-            return render(request, 'error.html', status=404)
+            return redirect('/news/error')
+            # return render(request, 'error.html', status=404)
         else:
             post.save()
             post.category.add(request.POST['category'])
@@ -82,3 +82,7 @@ def subscribe(request):
     category = Category.objects.get(category=request.POST.get('subscribe'))
     category.subscribers.add(user)
     return redirect('/news/')
+
+
+def error(request):
+    return render(request, 'error.html')
