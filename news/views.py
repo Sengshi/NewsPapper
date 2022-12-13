@@ -1,10 +1,8 @@
+from datetime import datetime, timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.core.mail import EmailMultiAlternatives
-from django.shortcuts import redirect
-from django.template.loader import render_to_string
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from .models import Post, Author, Category, UserCategory
+from .models import Post, Author, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -49,29 +47,16 @@ class PostAdd(PermissionRequiredMixin, CreateView):
             title=request.POST['title'],
             post=request.POST['post'],
         )
-        post.save()
-        post.category.set(request.POST['category'])
-        for _ in UserCategory.objects.filter(category=request.POST['category']).values("user"):
-            subscriber = User.objects.get(id=_["user"])
-            recipient = [subscriber.email]
-
-            html_content = render_to_string(
-                'news_created.html',
-                {
-                    'post': post,
-                    'subscriber': subscriber,
-                }
-            )
-            msg = EmailMultiAlternatives(
-                subject=f'{post.title}',
-                body=post.post,
-                from_email='testpysend@mail.ru',
-                to=recipient,
-            )
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-
-        return redirect('/news/')
+        today = datetime.now(timezone.utc)
+        today = today.replace(hour=0, minute=0, second=0, microsecond=0)
+        count = Post.objects.filter(create_date__gte=today).filter(user=post.user).count()
+        if count >= 3:
+            # return redirect('/news/error/')
+            return render(request, 'error.html', status=404)
+        else:
+            post.save()
+            post.category.add(request.POST['category'])
+            return redirect('/news/')
 
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
