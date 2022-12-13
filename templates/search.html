@@ -15,7 +15,7 @@
         <input type="submit" value="Найти">
     </form>
     {% if filter.qs %}
-        {% if filter.form.category.value and user.is_authenticated%}
+        {% if filter.form.category.value and user.is_authenticated %}
             <form action="subscribe" method="post">
                 {% csrf_token %}
                 <label for="subscribe">Выбрана категория: </label>

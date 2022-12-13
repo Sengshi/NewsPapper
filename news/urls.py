@@ -9,5 +9,5 @@ urlpatterns = [
     path('<int:pk>/edit', PostEdit.as_view(), name='post_update'),
     path('search', PostSearch.as_view()),
     path('error', error, name='error'),
-    path('subscribe', subscribe, name='subscribe')
+    path('subscribe', subscribe, name='subscribe'),
 ]
