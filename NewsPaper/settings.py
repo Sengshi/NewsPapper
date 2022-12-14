@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
-    # 'news.apps.NewsConfig',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -166,3 +166,8 @@ EMAIL_HOST_USER = 'testpysend'
 EMAIL_HOST_PASSWORD = 'hRt3mcVrt4ccVe50tSjB'
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@mail.ru'
+
+BASE_URL = 'http://127.0.0.1:8000'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

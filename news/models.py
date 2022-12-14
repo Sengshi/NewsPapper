@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
 
+from NewsPaper import settings
+
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -61,7 +63,7 @@ class Post(models.Model):
         return f'{self.post[0:123]}...'
 
     def get_absolute_url(self):
-        return f'/news/{self.id}'
+        return f'{settings.BASE_URL}/news/{self.id}'
 
 
 class PostCategory(models.Model):

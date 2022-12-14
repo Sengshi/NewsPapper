@@ -9,5 +9,7 @@
     <h2>Здравствуй, {{ subscriber.username }}. Новая статья в твоём любимом разделе!</h2>
     <h3> {{ post.title }} </h3>
     <p> {{ post.post|truncatechars:50 }} </p>
+
+    <h6> Для просмотра полной статьи перейдите по <a href="{{ post.get_absolute_url }}">ссылке</a></h6>
 </body>
 </html>
