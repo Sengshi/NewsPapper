@@ -17,12 +17,14 @@ class Command(BaseCommand):
         scheduler.add_jobstore(DjangoJobStore(), "default")
         scheduler.add_job(
             sender_subs,
-            trigger=CronTrigger(second="20"),
+            trigger=CronTrigger(
+                day_of_week="sun", hour="23", minute="30"
+            ),
             id="my_job",
             max_instances=1,
             replace_existing=True,
         )
-        logger.info("Added job 'my_job'.")
+        logger.info("Added job 'sender_subs'.")
 
         scheduler.add_job(
             delete_old_job_executions,
