@@ -20,7 +20,7 @@ class Command(BaseCommand):
             trigger=CronTrigger(
                 day_of_week="sun", hour="23", minute="30"
             ),
-            id="my_job",
+            id="sender_subs",
             max_instances=1,
             replace_existing=True,
         )
