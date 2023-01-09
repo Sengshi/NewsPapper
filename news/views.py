@@ -1,11 +1,13 @@
 from datetime import datetime, timezone
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .models import Post, Author, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.decorators.cache import cache_page
 
 
 class PostList(ListView):
@@ -20,6 +22,13 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'news_detail.html'
     context_object_name = 'news_detail'
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj
 
 
 class PostSearch(ListView):
