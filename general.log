@@ -1,0 +1,24 @@
+Watching for file changes with StatReloader
+E:\111111111111111\sf\D1\NewsPaper\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+E:\111111111111111\sf\D1\NewsPaper\NewsPaper\NewsPaper\settings.py changed, reloading.
+2023-01-19 15:12:19,009 INFO autoreload
+2023-01-19 15:12:38,694 INFO autoreload
+2023-01-19 15:14:10,324 INFO autoreload
+2023-01-19 15:37:33,352 INFO autoreload
+2023-01-19 15:37:37,641 WARNING log
+2023-01-19 15:37:38,098 WARNING log
+2023-01-19 15:37:38,498 WARNING log
+2023-01-19 15:40:38,502 INFO autoreload
+2023-01-19 15:40:39,848 INFO autoreload
+2023-01-19 15:42:12,249 INFO autoreload
+2023-01-19 15:42:13,722 INFO autoreload
+2023-01-19 15:44:27,642 WARNING log
+2023-01-19 15:44:28,311 WARNING log
+2023-01-19 15:44:52,164 INFO autoreload
+2023-01-19 15:44:53,530 INFO autoreload
+2023-01-19 15:44:55,571 WARNING log
+2023-01-19 15:44:55,861 WARNING log
+2023-01-19 15:44:56,104 WARNING log
+2023-01-19 15:45:18,865 INFO autoreload
+2023-01-19 15:45:20,197 INFO autoreload

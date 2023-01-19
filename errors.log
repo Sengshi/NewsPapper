@@ -1,0 +1,6 @@
+2023-01-19 15:44:55,571 WARNING E:\111111111111111\sf\D1\NewsPaper\venv\lib\site-packages\django\utils\log.py Not Found: / None
+2023-01-19 15:44:55,572 WARNING E:\111111111111111\sf\D1\NewsPaper\venv\lib\site-packages\django\core\servers\basehttp.py "GET / HTTP/1.1" 404 179 None
+2023-01-19 15:44:55,861 WARNING E:\111111111111111\sf\D1\NewsPaper\venv\lib\site-packages\django\utils\log.py Not Found: / None
+2023-01-19 15:44:55,862 WARNING E:\111111111111111\sf\D1\NewsPaper\venv\lib\site-packages\django\core\servers\basehttp.py "GET / HTTP/1.1" 404 179 None
+2023-01-19 15:44:56,104 WARNING E:\111111111111111\sf\D1\NewsPaper\venv\lib\site-packages\django\utils\log.py Not Found: / None
+2023-01-19 15:44:56,104 WARNING E:\111111111111111\sf\D1\NewsPaper\venv\lib\site-packages\django\core\servers\basehttp.py "GET / HTTP/1.1" 404 179 None
